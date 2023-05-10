@@ -45,7 +45,7 @@ namespace LoggingKata
 
             //HINT NESTED LOOPS SECTION---------------------
             // Do a loop for your locations to grab each location as the origin (perhaps: `locA`)
-            for(var i = 0; i < locations.Length; i++)
+            for (var i = 0; i < locations.Length; i++)
             {
                 var locA = locations[i];
 
@@ -53,29 +53,31 @@ namespace LoggingKata
                 var corA = new GeoCoordinate();
                 corA.Latitude = locA.Location.Latitude;
                 corA.Longitude = locA.Location.Longitude;
+            
+                for (var j = 0; j < locations.Length; j++)
+                {
+                    var locB = locations[j];
+
+                    var corB = new GeoCoordinate()
+                    {
+                        Latitude = locB.Location.Latitude,
+                        Longitude = locB.Location.Longitude
+                    };
+
+                    var currentDistance = corA.GetDistanceTo(corB);
+
+                    if (currentDistance > distance)
+                    {
+                        distance = currentDistance;
+                        tacoBell1 = locA;
+                        tacoBell2 = locB;
+
+                    }
+                }
             }
             
             // Now, do another loop on the locations with the scope of your first loop, so you can grab the "destination" location (perhaps: `locB`)
-            for (var j = 0; j < locations.Length; j++)
-            {
-                var locB = locations[j];
-
-                var corB = new GeoCoordinate()
-                {
-                    Latitude = locB.Location.Latitude,
-                    Longitude = locB.Location.Longitude
-                };
-
-                var currentDistance = corA.GetDistanceTo(corB);
-
-                if (currentDistance > distance)
-                {
-                    distance = currentDistance;
-                    tacoBell1 = locA;
-                    tacoBell2 = locB;
-
-                }
-            }
+            
             // Create a new Coordinate with your locB's lat and long
 
             // Now, compare the two using `.GetDistanceTo()`, which returns a double
